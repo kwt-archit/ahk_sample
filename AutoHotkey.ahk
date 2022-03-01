@@ -11,7 +11,7 @@ SendMode, Input
 SetWorkingDir %A_ScriptDir%
 SetTitleMatchMode, 2
 
-KOJI_NAME := "帯広川 改修工事（中流地区）"
+KOJI_NAME := "帯広川 改修工事（中流地区）test"
 YYMM := "R4-03"
 
 Return
