@@ -1,4 +1,4 @@
-﻿#Persistent
+#Persistent
 #SingleInstance, Force
 #NoEnv
 #UseHook
@@ -11,8 +11,8 @@ SendMode, Input
 SetWorkingDir %A_ScriptDir%
 SetTitleMatchMode, 2
 
-KOJI_NAME := "帯広川 改修工事（中流地区）test"
-YYMM := "R4-03"
+KOJI_NAME := "開建：岩内幹線用水路上清川工区工"
+YYMM := "R4-04"
 
 Return
 
@@ -210,19 +210,22 @@ F18::
       
 Return
 
-;;; 工事ツリーと「単語」リボンの右端を揃える
+;;; 事前準備： 工事ツリーと「単語」リボンの右端を揃える
 ; GAIA画面最大起動時に内訳表の1行目の「？」をダブルクリック
 F19::
   CoordMode, Mouse,Screen
-  Click,238,391,2
+  Click,307,520,2
 Return
 
+;;; 事前準備： 工事ツリーと「単語」リボンの右端を揃える
 ; GAIA画面最大起動時に「上の階層に移動」をクリック
 F20:: 
-  CoordMode, Mouse,Screen
-  Click,158,178
-  sleep, 1100
-  MouseMove,238,519
+   CoordMode, Mouse,Screen
+;  Click,197,245 ; 5K用
+  Click,158,212 ; 4K用
+  sleep, 800
+;  MouseMove,307,680 ; 5K用
+  MouseMove,232,512 ; 4K用 上から３つ目を選ぶ
 Return
 
 ;!vk1D:: Send, {Backspace} ;Alt + 無変換 を BackSpace　に置き換え
@@ -274,8 +277,12 @@ F24::
     ClipWait, 0.5
     clip :=Clipboard
     Clipboard :=stash
-  
-    ;不要文字のスペース置換   
+
+    ;歩掛文字列変換   ATLUS用
+    StringReplace, clip, clip, SP土砂等運搬  _ダンプトラック10ｔ積級,SP　土砂等運搬　
+    StringReplace, clip, clip, 不整地運搬_不整地運搬車,不整地運搬　特装運搬
+
+    ;不要文字のスペース置換   GAIA用
     StringReplace, clip, clip, 水道用硬質ポリ塩化ビニール管ＲＲ継手片受ベンド,ＲＲ　継手　片受　ベンド　
     StringReplace, clip, clip, 暗渠排水管 ポリエチレンパイプ波状管,ポリエチレンパイプ　波状管　
     StringReplace, clip, clip, ﾌﾗﾝｼﾞ接合材,ﾌﾗﾝｼﾞ　接合　
@@ -296,7 +303,7 @@ F24::
     StringReplace, clip, clip, ×, 　
     StringReplace, clip, clip, ×, 　
     StringReplace, clip, clip, ×, 　
-    StringReplace, clip, clip, モノフィラメント系,3　
+    StringReplace, clip, clip, モノフィラメント系,　
     StringReplace, clip, clip, ｍｍ, 　
     StringReplace, clip, clip, ダクタイルライニング直管接合材,ダクタイル 接合 水道用　
     StringReplace, clip, clip, ダクタイルライニング直管,ダクタイル ライニング　
@@ -308,6 +315,7 @@ F24::
     StringReplace, clip, clip, かんがい専用, かんがい　
     StringReplace, clip, clip, コンクリート空積割増, 空積　帯広　
     StringReplace, clip, clip,°,　
+    StringReplace, clip, clip,゜,　    
     StringReplace, clip, clip,～,　
     StringReplace, clip, clip,～,　
     StringReplace, clip, clip, ｍ ,  
@@ -363,7 +371,8 @@ F24::
       FoundPos := RegExMatch(clip,"高[0-9]")
       If ( FonndPos != 0 )
       {
-        x := FoundPos-1
+        x := FoundPos-1        x := FoundPos-1
+
         y := FoundPos+1
 
         StringMid, text_1, clip, 1, x
@@ -409,5 +418,24 @@ ExcelMojiColor(r, g, b)
     sleep, 100      ; 別にいらないけど一瞬くらい表示させてやろう
     Send, {Enter}
 }
+#IfWinActive
+
+#IfWinActive, ahk_class ahk_class WindowsForms10.Window.8.app.0.3ce0bb8_r7_ad1
+F13::   
+   CoordMode, Mouse,Screen
+  
+  Click,1131,94 ; 4K用
+  sleep, 200
+  Click,1151,125 ; 4K用
+Return
+
+F14::   
+   CoordMode, Mouse,Screen
+  
+  Click,1131,94 ; 4K用
+  sleep, 200
+  Click,1151,125 ; 4K用
+Return
+
 #IfWinActive
 
